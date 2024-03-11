@@ -18,6 +18,9 @@ const inference = new HfInference(HF_TOKEN);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // serve index.ejs
 app.get('/', (req, res) => {
   res.render('index');
@@ -93,17 +96,17 @@ app.post('/upload', upload.single('text'), async (req, res) => {
       case '4:3':
         height = 768;
         width = 768;
-        numInferenceSteps = 60;
+        numInferenceSteps = 50;
         break;
       case '5:7':
         height = 768;
         width = 1024;
-        numInferenceSteps = 64;
+        numInferenceSteps = 50;
         break;
       case '7:5':
         height = 1024;
         width = 768;
-        numInferenceSteps = 64;
+        numInferenceSteps = 50;
         break;
       case '9:16':
         height = 1024;

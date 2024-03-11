@@ -1,4 +1,52 @@
 body {
-  background-color: #333; /* Dark grey background */
-  color: #eee; /* Light smoke text */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+form {
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Apply fixed height and scrollbar to the textarea */
+textarea {
+  height: 100px; /* Adjust the height as needed */
+  width: 100%;
+  resize: none;
+  overflow-y: auto;
+}
+
+/* Center the button */
+button {
+  margin: 20px 0;
+  display: block;
+  width: 100%;
+}
+
+/* Media query for mobile responsiveness */
+@media screen and (max-width: 600px) {
+  form {
+    width: 95%;
+  }
+}
+
+/* Add loading message styles */
+#loadingMessage {
+  display: none;
+  text-align: center;
+}
+
+/* Add countdown timer styles */
+#countdown {
+  display: none;
+  text-align: center;
 }
