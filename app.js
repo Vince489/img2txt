@@ -30,7 +30,7 @@ app.post('/upload', upload.single('text'), async (req, res) => {
     const textDescription = req.body.text;
     const negative_prompt = req.body.negativePrompt;
     const style = req.body.style || 'default';
-    let seed = req.body.seed || Math.floor(Math.random() * (943221 - (-873098) + 1) + (-873098));
+    const seed = req.body.seed || Math.floor(Math.random() * (943221 - (-873098) + 1) + (-873098));
     const lora_scale = req.body.loraScale || 5;
     const guidanceScale = req.body.guidanceScale || 5;
 
@@ -55,7 +55,10 @@ app.post('/upload', upload.single('text'), async (req, res) => {
         styleModel = 'pixar influenced';
         break;
       case 'adult':
-        styleModel = 'hd 8k naked-ladies influenced';
+        styleModel = 'naked_nude_bare_skin';
+        break;
+      case 'realism':
+        styleModel = 'hd_8k_hi_res';
         break;
       default:
         break;

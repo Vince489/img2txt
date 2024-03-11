@@ -5,52 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text-to-Image Generator</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
-
-    form {
-      width: 90%;
-      max-width: 600px;
-      padding: 20px;
-      border-radius: 8px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Apply fixed height and scrollbar to the textarea */
-    textarea {
-      height: 100px; /* Adjust the height as needed */
-      width: 100%;
-      resize: none;
-      overflow-y: auto;
-    }
-
-    /* Center the button */
-    button {
-      margin: 20px 0;
-      display: block;
-      width: 100%;
-    }
-
-    /* Media query for mobile responsiveness */
-    @media screen and (max-width: 600px) {
-      form {
-        width: 95%;
-      }
-    }
-  </style>
 </head>
 <body>
+  <h1>Text-to-Image Generator</h1>
   <form action="/upload" method="post" enctype="multipart/form-data">
-    <h1>Text-to-Image Generator</h1>
     <label for="style">Art Style:</label>
     <select id="style" name="style">
       <option value="default">Default</option>
@@ -97,28 +55,28 @@
   </form>
   
   <script>
+    // Generate a random seed and set it as the value of the seed input field
     document.addEventListener("DOMContentLoaded", function() {
-      // Generate a random seed and set it as the value of the seed input field
       const seedInput = document.getElementById("seed");
       seedInput.value = Math.floor(Math.random() * (943221 - (-873098) + 1) + (-873098));
+    });
 
-      // Get the guidance scale input element
-      const guidanceScaleInput = document.getElementById('guidanceScale');
-      // Get the label element to display guidance scale value
-      const guidanceScaleValueLabel = document.getElementById('guidanceScaleValue');
-      // Display guidance scale value when the input changes
-      guidanceScaleInput.addEventListener('input', function() {
-        guidanceScaleValueLabel.textContent = this.value;
-      });
+    // Get the guidance scale input element
+    const guidanceScaleInput = document.getElementById('guidanceScale');
+    // Get the label element to display guidance scale value
+    const guidanceScaleValueLabel = document.getElementById('guidanceScaleValue');
+    // Display guidance scale value when the input changes
+    guidanceScaleInput.addEventListener('input', function() {
+      guidanceScaleValueLabel.textContent = this.value;
+    });
 
-      // Get the LoRaScale input element
-      const loraScaleInput = document.getElementById('loraScale');
-      // Get the label element to display LoRaScale value
-      const loraScaleValueLabel = document.getElementById('loraScaleValue');
-      // Display LoRaScale value when the input changes
-      loraScaleInput.addEventListener('input', function() {
-        loraScaleValueLabel.textContent = this.value;
-      });
+    // Get the LoRaScale input element
+    const loraScaleInput = document.getElementById('loraScale');
+    // Get the label element to display LoRaScale value
+    const loraScaleValueLabel = document.getElementById('loraScaleValue');
+    // Display LoRaScale value when the input changes
+    loraScaleInput.addEventListener('input', function() {
+      loraScaleValueLabel.textContent = this.value;
     });
   </script>
 </body>
