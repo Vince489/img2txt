@@ -24,15 +24,15 @@ app.get('/', (req, res) => {
 });
 
 // Handle file upload and generate image
+// Handle file upload and generate image
 app.post('/upload', upload.single('text'), async (req, res) => {
   try {
-    const textDescription = req.body.text;  
-    const negative_prompt = req.body.negativePrompt 
-    const style = req.body.style || 'default'; 
-    const seed = req.body.seed || 42;
+    const textDescription = req.body.text;
+    const negative_prompt = req.body.negativePrompt;
+    const style = req.body.style || 'default';
+    let seed = req.body.seed || Math.floor(Math.random() * (943221 - (-873098) + 1) + (-873098));
     const lora_scale = req.body.loraScale || 5;
     const guidanceScale = req.body.guidanceScale || 5;
-    
 
     if (!textDescription) {
       return res.status(400).send('Text is required');
@@ -43,14 +43,26 @@ app.post('/upload', upload.single('text'), async (req, res) => {
 
     switch (style) {
       case 'impressionist':
-        styleModel = 'impressionist-model';
+        styleModel = 'impressionist influenced';
         break;
       case 'cubist':
-        styleModel = 'cubist-model';
+        styleModel = 'cubist influenced';
+        break;
+      case 'anime':
+        styleModel = 'anime influenced';
+        break;
+      case 'pixar':
+        styleModel = 'pixar influenced';
+        break;
+      case 'adult':
+        styleModel = 'hd 8k naked-ladies influenced';
         break;
       default:
         break;
     }
+
+    // Prepend styleModel to textDescription
+    const styledTextDescription = `${styleModel}: ${textDescription}`;
 
     // Set default dimensions and num_inference_steps
     let height = 512;
@@ -63,12 +75,12 @@ app.post('/upload', upload.single('text'), async (req, res) => {
       case '1:1':
         height = 512;
         width = 512;
-        numInferenceSteps = 30;
+        numInferenceSteps = 32;
         break;
       case '2:3':
         height = 512;
         width = 768;
-        numInferenceSteps = 50;
+        numInferenceSteps = 64;
         break;
       case '3:4':
         height = 768;
@@ -83,12 +95,17 @@ app.post('/upload', upload.single('text'), async (req, res) => {
       case '5:7':
         height = 768;
         width = 1024;
-        numInferenceSteps = 60;
+        numInferenceSteps = 64;
+        break;
+      case '7:5':
+        height = 1024;
+        width = 768;
+        numInferenceSteps = 64;
         break;
       case '9:16':
         height = 1024;
         width = 1024;
-        numInferenceSteps = 60;
+        numInferenceSteps = 64;
         break;
       default:
         break;
@@ -96,8 +113,8 @@ app.post('/upload', upload.single('text'), async (req, res) => {
 
     const result = await inference.textToImage({
       model: model,
-      styleModel: styleModel, 
-      inputs: textDescription,
+      styleModel: styleModel,
+      inputs: styledTextDescription, // Use styledTextDescription here
       parameters: {
         negative_prompt: negative_prompt,
         height: height,
@@ -117,18 +134,19 @@ app.post('/upload', upload.single('text'), async (req, res) => {
     // Render the result using EJS
     res.render('result', {
       dataUrl: dataUrl,
-      prompt: textDescription,
+      prompt: textDescription, // Use styledTextDescription here
       negativePrompt: negative_prompt,
       loraScale: lora_scale,
       seed: seed,
       numInferenceSteps: numInferenceSteps,
       guidanceScale: guidanceScale
     });
-      } catch (error) {
+  } catch (error) {
     console.error('Error during image generation:', error);
     res.status(500).send('Error during image generation');
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
