@@ -49,19 +49,19 @@ app.post('/upload', upload.single('text'), async (req, res) => {
         styleModel = 'impressionist influenced';
         break;
       case 'cubist':
-        styleModel = 'cubist influenced';
+        styleModel = 'cubist influenced image';
         break;
       case 'anime':
-        styleModel = 'anime influenced';
+        styleModel = 'anime style';
         break;
       case 'pixar':
-        styleModel = 'pixar influenced';
+        styleModel = 'pixar style';
         break;
       case 'adult':
-        styleModel = 'naked_nude_bare_skin';
+        styleModel = 'naked_nude_bare_skin naked nude nudity';
         break;
       case 'realism':
-        styleModel = 'hd_8k_hi_res';
+        styleModel = 'hd_8k hi_res';
         break;
       default:
         break;
@@ -73,7 +73,7 @@ app.post('/upload', upload.single('text'), async (req, res) => {
     // Set default dimensions and num_inference_steps
     let height = 512;
     let width = 512;
-    let numInferenceSteps = 30;
+    let numInferenceSteps = 50;
 
     // Adjust dimensions and num_inference_steps based on aspect ratio
     const aspectRatio = req.body.aspectRatio;
@@ -86,7 +86,7 @@ app.post('/upload', upload.single('text'), async (req, res) => {
       case '2:3':
         height = 512;
         width = 768;
-        numInferenceSteps = 42;
+        numInferenceSteps = 50;
         break;
       case '3:4':
         height = 768;
