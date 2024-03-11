@@ -81,12 +81,12 @@ app.post('/upload', upload.single('text'), async (req, res) => {
       case '1:1':
         height = 512;
         width = 512;
-        numInferenceSteps = 32;
+        numInferenceSteps = 30;
         break;
       case '2:3':
         height = 512;
         width = 768;
-        numInferenceSteps = 64;
+        numInferenceSteps = 32;
         break;
       case '3:4':
         height = 768;

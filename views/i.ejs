@@ -5,15 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text-to-Image Generator</title>
   <link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
-  <h1>Text-to-Image Generator</h1>
-  <form action="/upload" method="post" enctype="multipart/form-data">
+  <div id="loading" style="display:none;">
+    <p>Loading...</p>
+    <div id="countdown">30</div>
+  </div>
+  <form id="imageForm" action="/upload" method="post" enctype="multipart/form-data">
+    <h1>Text-to-Image Generator</h1>
     <label for="style">Art Style:</label>
     <select id="style" name="style">
       <option value="default">Default</option>
       <option value="impressionist">Impressionist</option>
       <option value="cubist">Cubist</option>
+      <option value="anime">Anime</option>
+      <option value="pixar">Pixar</option>
+      <option value="adult">Adult</option>
+      <option value="realism">Realism</option>
       <!-- Add more options for different styles -->
     </select>    
     <label for="text">Enter Prompt:</label>
@@ -51,33 +60,50 @@
       <!-- Add more aspect ratios if needed -->
     </select>
     <br>
-    <button type="submit">Generate Image</button>
+    <button type="button" id="generateButton">Generate Image</button>
   </form>
   
   <script>
-    // Generate a random seed and set it as the value of the seed input field
     document.addEventListener("DOMContentLoaded", function() {
+      // Generate a random seed and set it as the value of the seed input field
       const seedInput = document.getElementById("seed");
       seedInput.value = Math.floor(Math.random() * (943221 - (-873098) + 1) + (-873098));
+
+      // Get the guidance scale input element
+      const guidanceScaleInput = document.getElementById('guidanceScale');
+      // Get the label element to display guidance scale value
+      const guidanceScaleValueLabel = document.getElementById('guidanceScaleValue');
+      // Display guidance scale value when the input changes
+      guidanceScaleInput.addEventListener('input', function() {
+        guidanceScaleValueLabel.textContent = this.value;
+      });
+
+      // Get the LoRaScale input element
+      const loraScaleInput = document.getElementById('loraScale');
+      // Get the label element to display LoRaScale value
+      const loraScaleValueLabel = document.getElementById('loraScaleValue');
+      // Display LoRaScale value when the input changes
+      loraScaleInput.addEventListener('input', function() {
+        loraScaleValueLabel.textContent = this.value;
+      });
+
+      // Add event listener to the generate button
+      const generateButton = document.getElementById('generateButton');
+      generateButton.addEventListener('click', startCountdown);
     });
 
-    // Get the guidance scale input element
-    const guidanceScaleInput = document.getElementById('guidanceScale');
-    // Get the label element to display guidance scale value
-    const guidanceScaleValueLabel = document.getElementById('guidanceScaleValue');
-    // Display guidance scale value when the input changes
-    guidanceScaleInput.addEventListener('input', function() {
-      guidanceScaleValueLabel.textContent = this.value;
-    });
-
-    // Get the LoRaScale input element
-    const loraScaleInput = document.getElementById('loraScale');
-    // Get the label element to display LoRaScale value
-    const loraScaleValueLabel = document.getElementById('loraScaleValue');
-    // Display LoRaScale value when the input changes
-    loraScaleInput.addEventListener('input', function() {
-      loraScaleValueLabel.textContent = this.value;
-    });
+    function startCountdown() {
+      document.getElementById("loading").style.display = "block";
+      
+      var countdown = 30;
+      var countdownInterval = setInterval(function() {
+        countdown--;
+        document.getElementById("countdown").innerText = countdown;
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+        }
+      }, 1000);
+    }
   </script>
 </body>
 </html>

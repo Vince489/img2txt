@@ -5,48 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text-to-Image Generator</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
 
-    form {
-      width: 90%;
-      max-width: 600px;
-      padding: 20px;
-      border-radius: 8px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Apply fixed height and scrollbar to the textarea */
-    textarea {
-      height: 100px; /* Adjust the height as needed */
-      width: 100%;
-      resize: none;
-      overflow-y: auto;
-    }
-
-    /* Center the button */
-    button {
-      margin: 20px 0;
-      display: block;
-      width: 100%;
-    }
-
-    /* Media query for mobile responsiveness */
-    @media screen and (max-width: 600px) {
-      form {
-        width: 95%;
-      }
-    }
-  </style>
 </head>
 <body>
   <form action="/upload" method="post" enctype="multipart/form-data">
@@ -56,6 +15,10 @@
       <option value="default">Default</option>
       <option value="impressionist">Impressionist</option>
       <option value="cubist">Cubist</option>
+      <option value="anime">Anime</option>
+      <option value="pixar">Pixar</option>
+      <option value="adult">Adult</option>
+      <option value="realism">Realism</option>
       <!-- Add more options for different styles -->
     </select>    
     <label for="text">Enter Prompt:</label>
@@ -120,6 +83,20 @@
         loraScaleValueLabel.textContent = this.value;
       });
     });
+
+    function startCountdown() {
+      document.getElementById("imageForm").style.display = "none";
+      document.getElementById("loading").style.display = "block";
+      
+      var countdown = 30;
+      var countdownInterval = setInterval(function() {
+        countdown--;
+        document.getElementById("countdown").innerText = countdown;
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+        }
+      }, 1000);
+    }
   </script>
 </body>
 </html>
