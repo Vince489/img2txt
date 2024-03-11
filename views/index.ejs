@@ -1,0 +1,80 @@
+<!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text-to-Image Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Text-to-Image Generator</h1>
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <label for="style">Art Style:</label>
+    <select id="style" name="style">
+      <option value="default">Default</option>
+      <option value="impressionist">Impressionist</option>
+      <option value="cubist">Cubist</option>
+      <!-- Add more options for different styles -->
+    </select>    
+    <label for="text">Enter Prompt:</label>
+    <textarea id="text" name="text" required></textarea>
+    <br>
+    <label for="text">Negative Prompt:</label>
+    <textarea id="negativePrompt" name="negativePrompt"></textarea>
+    <br>
+    <!-- Add this input field to your HTML form -->
+    <label for="seed">Seed:</label>
+    <input type="number" id="seed" name="seed" min="-1000000" max="1000000" value="0">
+    <br>
+    <!-- Add the guidance scale slider -->
+    <label for="guidanceScale">Guidance Scale:</label>
+    <input type="range" id="guidanceScale" name="guidanceScale" min="2" max="20" value="5">
+    <!-- Display guidance scale increments -->
+    <label id="guidanceScaleValue">5</label>
+    <br>
+    <!-- Add the LoRaScale -->
+    <label for="loraScale">LoRaScale:</label>
+    <input type="range" id="loraScale" name="loraScale" min="0" max="65" value="5">
+    <!-- Display LoRaScale value -->
+    <label id="loraScaleValue">5</label>
+    <br>
+    <!-- Add the aspect ratio selection -->
+    <label for="aspectRatio">Aspect Ratio:</label>
+    <select id="aspectRatio" name="aspectRatio">
+      <option value="1:1">1:1</option>
+      <option value="2:3">2:3</option>
+      <option value="3:4">3:4</option>
+      <option value="4:3">4:3</option>
+      <option value="5:7">5:7</option>
+      <option value="9:16">9:16</option>
+      <!-- Add more aspect ratios if needed -->
+    </select>
+    <br>
+    <button type="submit">Generate Image</button>
+  </form>
+  
+  <script>
+    // Get the guidance scale input element
+    const guidanceScaleInput = document.getElementById('guidanceScale');
+    // Get the label element to display guidance scale value
+    const guidanceScaleValueLabel = document.getElementById('guidanceScaleValue');
+    // Display guidance scale value when the input changes
+    guidanceScaleInput.addEventListener('input', function() {
+      guidanceScaleValueLabel.textContent = this.value;
+    });
+
+    // Get the LoRaScale input element
+    const loraScaleInput = document.getElementById('loraScale');
+    // Get the label element to display LoRaScale value
+    const loraScaleValueLabel = document.getElementById('loraScaleValue');
+    // Display LoRaScale value when the input changes
+    loraScaleInput.addEventListener('input', function() {
+      loraScaleValueLabel.textContent = this.value;
+    });
+  </script>
+
+  <!-- Include the script file -->
+  <script src="app.js"></script>
+</body>
+</html>
