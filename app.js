@@ -27,7 +27,6 @@ app.get('/', (req, res) => {
 });
 
 // Handle file upload and generate image
-// Handle file upload and generate image
 app.post('/upload', upload.single('text'), async (req, res) => {
   try {
     const textDescription = req.body.text;
@@ -42,26 +41,40 @@ app.post('/upload', upload.single('text'), async (req, res) => {
     }
 
     const model = 'stabilityai/stable-diffusion-xl-base-1.0';
-    let styleModel;
+    let styler;
+    let styleModel
+    let negativePromptModel
 
     switch (style) {
       case 'impressionist':
+        styler = 'Impressionist'
         styleModel = 'impressionist influenced';
+        negativePromptModel = 'realism'
         break;
       case 'cubist':
+        styler = 'Cubist'
         styleModel = 'cubist influenced';
+        negativePromptModel = 'realism'
         break;
       case 'anime':
-        styleModel = 'anime influenced';
+        styler = 'Anime'
+        styleModel = 'anime influenced';        
+        negativePromptModel = 'realism'
         break;
-      case 'pixar':
-        styleModel = 'pixar influenced';
+      case 'pixar':        
+        styler = 'Pixar'
+        styleModel = 'pixar styled image, ((pixar))';
+        negativePromptModel = 'realism'
         break;
       case 'adult':
-        styleModel = 'naked_nude_bare_skin';
+        styler = 'Adult'
+        styleModel = 'naked_nude_bare_skin nudity nude naked hd_8k_hi_res';
+        negativePromptModel = 'cartoonish'
         break;
       case 'realism':
-        styleModel = 'hd_8k_hi_res';
+        styler = 'Realism'
+        styleModel = 'hd_8k_ hi_res';
+        negativePromptModel = 'cartoonish'
         break;
       default:
         break;
@@ -70,10 +83,13 @@ app.post('/upload', upload.single('text'), async (req, res) => {
     // Prepend styleModel to textDescription
     const styledTextDescription = `${styleModel}: ${textDescription}`;
 
+    // Prepend negativeModel to negativePrompt
+    const negativePromptDescription = `${negativePromptModel}: ${negative_prompt}`;
+
     // Set default dimensions and num_inference_steps
     let height = 512;
     let width = 512;
-    let numInferenceSteps = 30;
+    let num_inference_steps = 30;
 
     // Adjust dimensions and num_inference_steps based on aspect ratio
     const aspectRatio = req.body.aspectRatio;
@@ -81,37 +97,37 @@ app.post('/upload', upload.single('text'), async (req, res) => {
       case '1:1':
         height = 512;
         width = 512;
-        numInferenceSteps = 50;
+        num_inference_steps = 50;
         break;
       case '2:3':
         height = 512;
         width = 768;
-        numInferenceSteps = 42;
+        num_inference_steps = 42;
         break;
       case '3:4':
         height = 768;
         width = 512;
-        numInferenceSteps = 50;
+        num_inference_steps = 50;
         break;
       case '4:3':
         height = 768;
         width = 768;
-        numInferenceSteps = 50;
+        num_inference_steps = 50;
         break;
       case '5:7':
         height = 768;
         width = 1024;
-        numInferenceSteps = 50;
+        num_inference_steps = 50;
         break;
       case '7:5':
         height = 1024;
         width = 768;
-        numInferenceSteps = 50;
+        num_inference_steps = 50;
         break;
       case '9:16':
         height = 1024;
         width = 1024;
-        numInferenceSteps = 64;
+        num_inference_steps = 64;
         break;
       default:
         break;
@@ -119,15 +135,14 @@ app.post('/upload', upload.single('text'), async (req, res) => {
 
     const result = await inference.textToImage({
       model: model,
-      styleModel: styleModel,
       inputs: styledTextDescription, // Use styledTextDescription here
       parameters: {
-        negative_prompt: negative_prompt,
+        negative_prompt: negativePromptDescription,
         height: height,
         width: width,
         lora_scale: lora_scale,
         seed: seed,
-        num_inference_steps: numInferenceSteps,
+        num_inference_steps: num_inference_steps,
         guidanceScale: guidanceScale,
       }
     });
@@ -140,12 +155,14 @@ app.post('/upload', upload.single('text'), async (req, res) => {
     // Render the result using EJS
     res.render('result', {
       dataUrl: dataUrl,
+      styleModel: styler,
       prompt: textDescription, // Use styledTextDescription here
       negativePrompt: negative_prompt,
       loraScale: lora_scale,
       seed: seed,
-      numInferenceSteps: numInferenceSteps,
-      guidanceScale: guidanceScale
+      num_inference_steps: num_inference_steps,
+      guidanceScale: guidanceScale,
+      aspectRatio: aspectRatio
     });
   } catch (error) {
     console.error('Error during image generation:', error);

@@ -9,13 +9,16 @@
 <body>
   <h1>Generated Image</h1>
   <img src="<%= dataUrl %>" alt="Generated Image">
+  <p>Art Style: <%= styleModel || 'Default' %></p>
   <p>Prompt: <%= prompt %></p>
   <p>Negative Prompt: <%= negativePrompt %></p>
   <div class="parameters">
     <p>LoRa Scale: <%= loraScale %></p>
     <p>Seed: <%= seed %></p>
-    <p>Num Inference Steps: <%= numInferenceSteps %></p>
+    <p>Number Inference Steps: <%= num_inference_steps %></p>
     <p>Guidance Scale: <%= guidanceScale %></p>
+    <p>LoRa Scale: <%= guidanceScale %></p>
+    <p>Aspect Ratio: <%= aspectRatio %></p>
   </div>
 </body>
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Chatbot</title>
+</head>
+<body>
+
+<div id="chat-container"></div>
+<input type="text" id="user-input" placeholder="Type your message here...">
+<button onclick="sendMessage()">Send</button>
+
+<script>
+const chatContainer = document.getElementById("chat-container");
+const userInput = document.getElementById("user-input");
+
+// Define responses for specific keywords
+const responses = {
+    "hi": "Hello!",
+    "how are you": "I'm good, thank you!",
+    "bye": "Goodbye!"
+};
+
+// Function to generate bot response
+function generateBotResponse(message) {
+    message = message.toLowerCase();
+    for (const keyword in responses) {
+        if (message.includes(keyword)) {
+            return responses[keyword];
+        }
+    }
+    return "I'm sorry, I don't understand.";
+}
+
+// Function to add message to chat container
+function addMessageToChat(message, sender) {
+    const messageElement = document.createElement("div");
+    messageElement.textContent = `${sender}: ${message}`;
+    chatContainer.appendChild(messageElement);
+}
+
+// Function to send user message
+function sendMessage() {
+    const userMessage = userInput.value.trim();
+    if (userMessage !== "") {
+        addMessageToChat(userMessage, "You");
+        const botResponse = generateBotResponse(userMessage);
+        addMessageToChat(botResponse, "Bot");
+        userInput.value = "";
+    }
+    userInput.focus();
+}
+
+// Focus on input field when page loads
+userInput.focus();
+
+// Example: greet the user
+addMessageToChat("Welcome! How can I help you?", "Bot");
+</script>
+
+</body>
+</html>
