@@ -52,29 +52,19 @@ app.post('/upload', upload.single('text'), async (req, res) => {
         negativePromptModel = 'realism'
         break;
       case 'cubist':
-        styler = 'Cubist'
         styleModel = 'cubist influenced';
-        negativePromptModel = 'realism'
         break;
       case 'anime':
-        styler = 'Anime'
-        styleModel = 'anime influenced';        
-        negativePromptModel = 'realism'
+        styleModel = 'anime influenced';
         break;
-      case 'pixar':        
-        styler = 'Pixar'
-        styleModel = 'pixar styled image, ((pixar))';
-        negativePromptModel = 'realism'
+      case 'pixar':
+        styleModel = 'pixar influenced';
         break;
       case 'adult':
-        styler = 'Adult'
-        styleModel = 'naked_nude_bare_skin nudity nude naked hd_8k_hi_res';
-        negativePromptModel = 'cartoonish'
+        styleModel = 'naked_nude_bare_skin';
         break;
       case 'realism':
-        styler = 'Realism'
-        styleModel = 'hd_8k_ hi_res';
-        negativePromptModel = 'cartoonish'
+        styleModel = 'hd_8k_hi_res';
         break;
       default:
         break;
@@ -89,7 +79,7 @@ app.post('/upload', upload.single('text'), async (req, res) => {
     // Set default dimensions and num_inference_steps
     let height = 512;
     let width = 512;
-    let num_inference_steps = 30;
+    let numInferenceSteps = 30;
 
     // Adjust dimensions and num_inference_steps based on aspect ratio
     const aspectRatio = req.body.aspectRatio;
@@ -102,7 +92,7 @@ app.post('/upload', upload.single('text'), async (req, res) => {
       case '2:3':
         height = 512;
         width = 768;
-        num_inference_steps = 42;
+        numInferenceSteps = 42;
         break;
       case '3:4':
         height = 768;
