@@ -11,8 +11,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Set up Hugging Face Inference
-const HF_TOKEN = process.env.HF_TOKEN;
-const inference = new HfInference(HF_TOKEN);
+const inference = new HfInference();
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
