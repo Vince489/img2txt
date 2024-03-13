@@ -19,13 +19,13 @@
       <option value="adult">Adult</option>
       <option value="realism">Realism</option>
       <!-- Add more options for different styles -->
-    </select>    
+    </select>
+    <br>    
     <label for="text">Enter Prompt:</label>
     <!-- Apply the CSS to the textarea -->
     <textarea id="text" name="text" required></textarea>
     <br>
-    <!-- Add button for speech synthesis -->
-    <button type="button" onclick="startSpeechRecognition()">Speak your Prompt</button>    <label for="text">Negative Prompt:</label>
+    <label for="negativePrompt">Negative Prompt:</label>
     <textarea id="negativePrompt" name="negativePrompt"></textarea>
     <br>
     <!-- Add this input field to your HTML form -->
@@ -57,6 +57,8 @@
       <!-- Add more aspect ratios if needed -->
     </select>
     <br>
+    <button type="button" onclick="startSpeechRecognition()">Speech to Text</button>
+    <br>
     <button type="submit">Generate Image</button>
   </form>
   
@@ -83,17 +85,36 @@
       loraScaleInput.addEventListener('input', function() {
         loraScaleValueLabel.textContent = this.value;
       });
+
+      // Add focus event listeners to the textareas
+      const textArea = document.getElementById('text');
+      const negativePromptArea = document.getElementById('negativePrompt');
+      
+      textArea.addEventListener('focus', function() {
+        activeTextArea = this;
+      });
+
+      negativePromptArea.addEventListener('focus', function() {
+        activeTextArea = this;
+      });
     });
 
-    // Function to initiate speech recognition
+    // Global variable to track active textarea
+    let activeTextArea;
+
+    // Function to initiate speech recognition based on active textarea
     function startSpeechRecognition() {
-      const recognition = new webkitSpeechRecognition(); // Use webkitSpeechRecognition for Chrome
-      recognition.lang = 'en-US'; // Set language to English
-      recognition.onresult = function(event) {
-        const speechToText = event.results[0][0].transcript; // Get the recognized text
-        document.getElementById('text').value = speechToText; // Set the recognized text to the textarea
-      };
-      recognition.start(); // Start speech recognition
+      if (activeTextArea) {
+        const recognition = new webkitSpeechRecognition(); // Use webkitSpeechRecognition for Chrome
+        recognition.lang = 'en-US'; // Set language to English
+        recognition.onresult = function(event) {
+          const speechToText = event.results[0][0].transcript; // Get the recognized text
+          activeTextArea.value = speechToText; // Set the recognized text to the active textarea
+        };
+        recognition.start(); // Start speech recognition
+      } else {
+        alert("Click inside a textarea to activate speech-to-text for that input.");
+      }
     }
   </script>
 </body>
