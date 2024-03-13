@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text-to-Image Generator</title>
   <link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
   <form action="/upload" method="post" enctype="multipart/form-data">
@@ -24,8 +25,7 @@
     <!-- Apply the CSS to the textarea -->
     <textarea id="text" name="text" required></textarea>
     <br>
-    <!-- Add button for speech synthesis -->
-    <button type="button" onclick="startSpeechRecognition()">Speak your Prompt</button>    <label for="text">Negative Prompt:</label>
+    <label for="text">Negative Prompt:</label>
     <textarea id="negativePrompt" name="negativePrompt"></textarea>
     <br>
     <!-- Add this input field to your HTML form -->
@@ -56,7 +56,6 @@
       <option value="9:16">9:16</option>
       <!-- Add more aspect ratios if needed -->
     </select>
-
     <br>
     <button type="submit">Generate Image</button>
   </form>
@@ -86,15 +85,18 @@
       });
     });
 
-    // Function to initiate speech recognition
-    function startSpeechRecognition() {
-      const recognition = new webkitSpeechRecognition(); // Use webkitSpeechRecognition for Chrome
-      recognition.lang = 'en-US'; // Set language to English
-      recognition.onresult = function(event) {
-        const speechToText = event.results[0][0].transcript; // Get the recognized text
-        document.getElementById('text').value = speechToText; // Set the recognized text to the textarea
-      };
-      recognition.start(); // Start speech recognition
+    function startCountdown() {
+      document.getElementById("imageForm").style.display = "none";
+      document.getElementById("loading").style.display = "block";
+      
+      var countdown = 30;
+      var countdownInterval = setInterval(function() {
+        countdown--;
+        document.getElementById("countdown").innerText = countdown;
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+        }
+      }, 1000);
     }
   </script>
 </body>
