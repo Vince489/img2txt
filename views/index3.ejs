@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Text-to-Image Generator</title>
   <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
   <form action="/upload" method="post" enctype="multipart/form-data">
@@ -84,20 +83,6 @@
         loraScaleValueLabel.textContent = this.value;
       });
     });
-
-    function startCountdown() {
-      document.getElementById("imageForm").style.display = "none";
-      document.getElementById("loading").style.display = "block";
-      
-      var countdown = 30;
-      var countdownInterval = setInterval(function() {
-        countdown--;
-        document.getElementById("countdown").innerText = countdown;
-        if (countdown <= 0) {
-          clearInterval(countdownInterval);
-        }
-      }, 1000);
-    }
   </script>
 </body>
 </html>
