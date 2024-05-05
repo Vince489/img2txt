@@ -10,8 +10,10 @@ const port = process.env.PORT || 5000;
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+const HF_TOKEN = "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";
+
 // Set up Hugging Face Inference
-const inference = new HfInference();
+const inference = new HfInference(HF_TOKEN);
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
