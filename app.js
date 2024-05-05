@@ -131,7 +131,6 @@ app.post('/upload', upload.single('text'), async (req, res) => {
         width: width,
         lora_scale: lora_scale,
         seed: seed,
-        num_inference_steps: num_inference_steps,
         guidanceScale: guidanceScale,
       }
     });
@@ -149,7 +148,6 @@ app.post('/upload', upload.single('text'), async (req, res) => {
       negativePrompt: negative_prompt,
       loraScale: lora_scale,
       seed: seed,
-      num_inference_steps: num_inference_steps,
       guidanceScale: guidanceScale,
       aspectRatio: aspectRatio
     });
